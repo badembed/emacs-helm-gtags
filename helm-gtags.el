@@ -170,7 +170,7 @@ Always update if value of this variable is nil."
 (defconst helm-gtags--buffer "*helm gtags*")
 
 (defconst helm-gtags--include-regexp
-  "\\`\\s-*#\\(?:include\\|import\\)\\s-*[\"<]\\(?:[./]*\\)?\\(.*?\\)[\">]")
+  "\\`\\s-*#*\\(?:include\\|import\\)\\s-*[\"<]\\(?:[./]*\\)?\\(.*?\\)[\">]")
 
 (defmacro helm-declare-obsolete-variable (old new version)
   `(progn
@@ -1079,6 +1079,7 @@ Always update if value of this variable is nil."
   "Jump to definition"
   (interactive
    (list (helm-gtags--read-tagname 'tag)))
+  (setq tag (replace-regexp-in-string "\\$" "" tag))
   (helm-gtags--common '(helm-source-gtags-tags) tag))
 
 ;;;###autoload
@@ -1086,6 +1087,7 @@ Always update if value of this variable is nil."
   "Jump to definition in other window."
   (interactive
    (list (helm-gtags--read-tagname 'tag)))
+  (setq tag (replace-regexp-in-string "\\$" "" tag))
   (setq helm-gtags--use-otherwin t)
   (helm-gtags-find-tag tag))
 
@@ -1094,6 +1096,7 @@ Always update if value of this variable is nil."
   "Jump to referenced point"
   (interactive
    (list (helm-gtags--read-tagname 'rtag (which-function))))
+  (setq tag (replace-regexp-in-string "\\$" "" tag))
   (helm-gtags--common '(helm-source-gtags-rtags) tag))
 
 ;;;###autoload
@@ -1101,6 +1104,7 @@ Always update if value of this variable is nil."
   "Jump to the symbol location"
   (interactive
    (list (helm-gtags--read-tagname 'symbol)))
+  (setq tag (replace-regexp-in-string "\\$" "" tag))
   (helm-gtags--common '(helm-source-gtags-gsyms) tag))
 
 ;;;###autoload
@@ -1108,6 +1112,7 @@ Always update if value of this variable is nil."
   "Grep and jump by gtags tag files."
   (interactive
    (list (helm-gtags--read-tagname 'pattern)))
+  (setq pattern (replace-regexp-in-string "\\$" "" pattern))
   (helm-gtags--common '(helm-source-gtags-pattern) pattern))
 
 (defun helm-gtags--find-file-after-hook ()
